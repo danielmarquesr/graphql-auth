@@ -16,13 +16,12 @@ services:
     command: sh run.sh
     ports:
       - 3000:3000
+      - 5555:5555
     volumes:
       - .:/code
     environment:
-      - DB_USER=root
-      - DB_PASSWORD=root
-      - DB_NAME=development
       - PORT=3000
       - NODE_ENV=development
+      - DATABASE_URL="postgresql://root:root@db:5432/development?schema=public"
     depends_on:
       - db
