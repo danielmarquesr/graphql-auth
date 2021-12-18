@@ -1,32 +1,42 @@
+import { PrismaClient } from '@prisma/client';
 import { makeExecutableSchema } from '@graphql-tools/schema';
-import express, { Request, Response } from 'express';
+import express from 'express';
 import { graphqlHTTP } from 'express-graphql';
 import resolvers from 'src/graphql/resolvers';
 import typeDefs from 'src/graphql/typeDefs';
+import { verifyTokenJWT } from 'src/middleware';
 
-// to kill prisma on ts-node-dev reload
-process.on('SIGTERM', () => process.exit());
+const { PORT, NODE_ENV } = process.env;
 
 const app = express();
 
 app.use(express.json());
 
-app.use('/ping', (_req: Request, res: Response) =>
-  res.status(200).send({ msg: 'pong!', time: new Date() })
-);
+app.use('/ping', (_req, res) => res.json({ msg: 'pong!' }));
 
 const schema = makeExecutableSchema({ resolvers, typeDefs });
 
+const prisma = new PrismaClient();
+
+// to kill prisma on ts-node-dev reload
+process.on('SIGTERM', () => process.exit());
+
 app.use(
   '/graphql',
-  graphqlHTTP({
+  (req, res, next) => verifyTokenJWT(req, res, next, prisma),
+  graphqlHTTP((req) => ({
     schema,
-    graphiql: true,
+    graphiql: NODE_ENV === 'development',
     pretty: true,
-  })
+    context: { req, prisma },
+    customFormatErrorFn: (error) => ({
+      message: error.message,
+      name: error.name,
+      timestamp: new Date(),
+    }),
+  }))
 );
 
-const { PORT } = process.env;
 app.listen(PORT, () =>
   // eslint-disable-next-line no-console
   console.log(`\n🚀 GraphQL server ready at http://localhost:${PORT}/graphql\n`)
