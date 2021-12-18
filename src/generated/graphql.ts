@@ -1,5 +1,6 @@
 import { GraphQLResolveInfo } from 'graphql';
-import { Context } from '../types/graphql';
+import { User as UserModel } from '@prisma/client/index.d';
+import { Context } from 'src/types/graphql.d';
 
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -194,7 +195,7 @@ export type ResolversTypes = {
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
   Token: ResolverTypeWrapper<Token>;
-  User: ResolverTypeWrapper<User>;
+  User: ResolverTypeWrapper<UserModel>;
   UserInput: UserInput;
 };
 
@@ -208,7 +209,7 @@ export type ResolversParentTypes = {
   Query: {};
   String: Scalars['String'];
   Token: Token;
-  User: User;
+  User: UserModel;
   UserInput: UserInput;
 };
 

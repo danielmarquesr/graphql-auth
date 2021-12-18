@@ -5,5 +5,7 @@ export const validateAuth = (req: Request) => {
 
   if (error) throw error;
 
+  if (!user) throw new Error("Can't get the user from request");
+
   return user;
 };

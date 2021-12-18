@@ -1,13 +1,16 @@
 overwrite: true
-schema: "http://localhost:3000/graphql"
+schema: http://localhost:3000/graphql
 documents: null
 generates:
   src/generated/graphql.ts:
     config:
-      contextType: ../types/graphql#Context
+      contextType: src/types/graphql.d#Context
+      mapperTypeSuffix: Model
+      mappers:
+        User: "@prisma/client/index.d#User"
     plugins:
-      - "typescript"
-      - "typescript-resolvers"
+      - typescript
+      - typescript-resolvers
   ./graphql.schema.json:
     plugins:
-      - "introspection"
+      - introspection

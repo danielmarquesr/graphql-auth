@@ -11,7 +11,6 @@ const query: Resolvers = {
     User: async (_parent, { id }, { req, prisma }) => {
       validateAuth(req);
       const userFound = await prisma.user.findUnique({ where: { id } });
-      if (!userFound) throw new Error('User not found!');
       return userFound;
     },
     CurrentUser: (_parent, _args, { req }) => {
