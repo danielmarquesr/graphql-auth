@@ -7,17 +7,28 @@ type User {
   updatedAt: String!
 }
 
+type Token {
+  token: String!
+}
+
 input UserInput {
   email: String!
   password: String!
   name: String
 }
 
+input AuthInput {
+  email: String!
+  password: String!
+}
+
 type Query {
-  Users: [User!]!
+  Users(page: Int, limit: Int): [User!]!
   User(id: ID!): User
+  CurrentUser: User
 }
 
 type Mutation {
-  CreateUser(input: UserInput!): User
+  SignUp(input: UserInput!): User
+  SignIn(input: AuthInput!): Token
 }
