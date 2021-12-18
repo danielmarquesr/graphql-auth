@@ -22,7 +22,7 @@ input AuthInput {
 }
 
 type Query {
-  Users(page: Int, limit: Int): [User!]!
+  Users(cursor: ID, limit: Int): [User!]!
   User(id: ID!): User
   CurrentUser: User
 }
