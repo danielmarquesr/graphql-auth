@@ -1,1 +1,1 @@
-# hello-graphql-api
+# hello-graphql
