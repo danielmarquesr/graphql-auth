@@ -14,8 +14,6 @@ app.use(express.json());
 
 app.use('/ping', (_req, res) => res.json({ msg: 'pong!' }));
 
-const schema = makeExecutableSchema({ resolvers, typeDefs });
-
 const prisma = new PrismaClient();
 
 // to kill prisma on ts-node-dev reload
@@ -25,7 +23,7 @@ app.use(
   '/graphql',
   (req, res, next) => verifyTokenJWT(req, res, next, prisma),
   graphqlHTTP((req) => ({
-    schema,
+    schema: makeExecutableSchema({ resolvers, typeDefs }),
     graphiql: NODE_ENV === 'development',
     pretty: true,
     context: { req, prisma },
