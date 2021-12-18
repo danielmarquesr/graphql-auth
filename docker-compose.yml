@@ -12,7 +12,7 @@ services:
 
   api:
     build: .
-    image: hello-graphql-api
+    image: hello-graphql
     command: sh run.sh
     ports:
       - 3000:3000
@@ -23,5 +23,6 @@ services:
       - PORT=3000
       - NODE_ENV=development
       - DATABASE_URL=postgresql://root:root@db:5432/development?schema=public
+      - SECRET=some-real-secret
     depends_on:
       - db
