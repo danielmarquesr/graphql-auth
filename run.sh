@@ -1,1 +1,1 @@
-yarn install && yarn dev
+yarn install && yarn prisma db push && yarn dev
