@@ -1,17 +1,14 @@
-import { hashSync, compareSync } from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
-import { sign } from 'jsonwebtoken';
 import { Resolvers } from 'src/generated/graphql';
 import { userSchema } from 'src/validations/schema';
-
-const SALT_ROUNDS = 10;
+import { comparePassword, hashPassowrd, signInUser } from 'src/utils/hash';
 
 const mutation: Resolvers = {
   Mutation: {
     SignUp: async (_parent, { input }, { prisma }) => {
       userSchema.validateSync(input, { abortEarly: false });
 
-      const hashed = hashSync(input.password, SALT_ROUNDS);
+      const hashed = hashPassowrd(input.password);
       const data = { ...input, password: hashed, id: uuidv4() };
       const userCreated = await prisma.user.create({ data });
       return userCreated;
@@ -21,13 +18,10 @@ const mutation: Resolvers = {
         where: { email },
       });
 
-      if (!userFound || !compareSync(password, userFound.password))
+      if (!userFound || !comparePassword(password, userFound.password))
         throw new Error('Incorrect email or password');
 
-      const token = sign({ id: userFound.id }, process.env.SECRET!, {
-        algorithm: 'HS256',
-        expiresIn: '90d',
-      });
+      const token = signInUser({ id: userFound.id });
 
       return { token };
     },

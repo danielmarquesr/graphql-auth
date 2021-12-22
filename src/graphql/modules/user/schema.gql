@@ -3,7 +3,7 @@ type User {
   email: String!
   firstName: String
   lastName: String
-  isConfirmed: Boolean!
+  isEmailConfirmed: Boolean!
   createdAt: String!
   updatedAt: String!
 }

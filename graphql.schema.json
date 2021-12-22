@@ -354,7 +354,7 @@
             "deprecationReason": null
           },
           {
-            "name": "isConfirmed",
+            "name": "isEmailConfirmed",
             "description": null,
             "args": [],
             "type": {
