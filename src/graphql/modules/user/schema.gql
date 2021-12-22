@@ -1,7 +1,9 @@
 type User {
   id: ID!
   email: String!
-  name: String
+  firstName: String
+  lastName: String
+  isConfirmed: Boolean!
   createdAt: String!
   updatedAt: String!
 }
@@ -13,7 +15,8 @@ type Token {
 input UserInput {
   email: String!
   password: String!
-  name: String
+  firstName: String
+  lastName: String
 }
 
 input AuthInput {
