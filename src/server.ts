@@ -29,8 +29,10 @@ app.use(
     context: { req, prisma },
     customFormatErrorFn: (error) => ({
       message: error.message,
-      name: error.name,
-      timestamp: new Date(),
+      name: error.originalError?.name || error.name,
+      ...(error.originalError?.errors && {
+        errors: error.originalError.errors,
+      }),
     }),
   }))
 );
