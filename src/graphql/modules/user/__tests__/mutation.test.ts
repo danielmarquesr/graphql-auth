@@ -3,7 +3,7 @@ import { graphql } from 'graphql';
 import { prismaMock } from 'src/setupTests';
 import resolvers from 'src/graphql/resolvers';
 import typeDefs from 'src/graphql/typeDefs';
-import { usersListMock } from './__mocks__/users';
+import { usersListMock } from '../__mocks__/user';
 
 const schema = makeExecutableSchema({ resolvers, typeDefs });
 
