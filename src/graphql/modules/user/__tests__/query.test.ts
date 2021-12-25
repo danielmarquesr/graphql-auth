@@ -16,7 +16,6 @@ describe('User - query CurrentUser', () => {
           email
           firstName
           lastName
-          isEmailConfirmed
           createdAt
           updatedAt
         }
@@ -42,7 +41,6 @@ describe('User - query CurrentUser', () => {
       email: userMock.email,
       firstName: userMock.firstName,
       lastName: userMock.lastName,
-      isEmailConfirmed: userMock.isEmailConfirmed,
       createdAt: userMock.createdAt,
       updatedAt: userMock.updatedAt,
     });

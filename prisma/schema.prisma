@@ -8,12 +8,11 @@ datasource db {
 }
 
 model User {
-  id                String    @db.VarChar(36)   @id
-  email             String    @db.VarChar(254)  @unique
-  password          String    @db.VarChar(255)
-  firstName         String?   @db.VarChar(60)
-  lastName          String?   @db.VarChar(60)
-  isEmailConfirmed  Boolean   @default(false)
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
+  id         String    @db.VarChar(36)   @id
+  email      String    @db.VarChar(254)  @unique
+  password   String    @db.VarChar(255)
+  firstName  String?   @db.VarChar(60)
+  lastName   String?   @db.VarChar(60)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 }

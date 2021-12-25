@@ -67,7 +67,6 @@ export type User = {
   email: Scalars['String'];
   firstName?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
-  isEmailConfirmed: Scalars['Boolean'];
   lastName?: Maybe<Scalars['String']>;
   updatedAt: Scalars['Date'];
 };
@@ -201,7 +200,6 @@ export type UserResolvers<ContextType = Context, ParentType extends ResolversPar
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   firstName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  isEmailConfirmed?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   lastName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

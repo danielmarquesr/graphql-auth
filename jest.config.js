@@ -4,7 +4,7 @@ module.exports = {
   testEnvironment: 'node',
   setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
   testPathIgnorePatterns: ['/node_modules/', './dist'],
-  coverageReporters: ['lcov', 'html'],
+  coverageReporters: ['lcov', 'html', 'text'],
   moduleFileExtensions: ['ts', 'js', 'json', 'node'],
   transform: {
     '^.+\\.(ts)?$': 'ts-jest',

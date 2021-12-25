@@ -5,7 +5,6 @@ type User {
   email: String!
   firstName: String
   lastName: String
-  isEmailConfirmed: Boolean!
   createdAt: Date!
   updatedAt: Date!
 }
