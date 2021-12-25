@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only -r tsconfig-paths/register --watch src/ src/server.ts",
     "codegen": "graphql-codegen --config codegen.yml",
+    "migrate": "prisma migrate dev && graphql-codegen --config codegen.yml",
     "test": "jest -i",
     "test:cov": "jest -i --coverage"
   },

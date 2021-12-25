@@ -8,11 +8,22 @@ datasource db {
 }
 
 model User {
-  id         String    @db.VarChar(36)   @id
-  email      String    @db.VarChar(254)  @unique
-  password   String    @db.VarChar(255)
-  firstName  String?   @db.VarChar(60)
-  lastName   String?   @db.VarChar(60)
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  id                  String               @db.VarChar(36)   @id
+  email               String               @db.VarChar(254)  @unique
+  password            String               @db.VarChar(255)
+  firstName           String?              @db.VarChar(60)
+  lastName            String?              @db.VarChar(60)
+  confirmationTokens  ConfirmationToken[]
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+}
+
+model ConfirmationToken {
+  id           String     @db.VarChar(36)   @id
+  token        String     @db.VarChar(64)  @unique
+  confirmedAt  DateTime?
+  user         User       @relation(fields: [userId], references: [id])
+  userId       String
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
 }
