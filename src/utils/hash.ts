@@ -1,5 +1,5 @@
 import { createHash } from 'crypto';
-import { hashSync, compareSync } from 'bcrypt';
+import { hashSync, compareSync } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 
 const SALT_ROUNDS = 10;
