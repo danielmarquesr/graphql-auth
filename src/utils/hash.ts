@@ -10,11 +10,11 @@ export const hashPassowrd = (password: string) =>
 export const comparePassword = (password: string, hashed: string) =>
   compareSync(password, hashed);
 
-export const signInUser = (payload: Object) =>
-  sign(payload, process.env.SECRET!, {
+export const signInUser = (payload: Record<string, unknown>) =>
+  sign(payload, process.env.SECRET || 'some-real-secret', {
     algorithm: 'HS256',
     expiresIn: '90d',
   });
 
-export const generateHashSHA256 = (data: any) =>
+export const generateHashSHA256 = (data: Record<string, unknown>) =>
   createHash('sha256').update(JSON.stringify(data)).digest('hex');

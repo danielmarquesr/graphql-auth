@@ -4,7 +4,7 @@ import { PrismaClient } from '@prisma/client';
 
 declare global {
   interface Error {
-    errors?: String[];
+    errors?: string[];
   }
 }
 

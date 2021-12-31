@@ -18,10 +18,10 @@ export const verifyTokenJWT = async (
     if (!authorization)
       throw new Error('JWT token was not found in request headers');
 
-    const token = authorization!.replace('Bearer ', '');
+    const token = authorization.replace('Bearer ', '');
 
     const { SECRET } = process.env;
-    const decoded = verify(token, SECRET!) as Payload;
+    const decoded = verify(token, SECRET || 'some-real-secret') as Payload;
 
     if (!decoded?.id) throw new Error('Invalid token');
 

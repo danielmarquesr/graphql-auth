@@ -7,8 +7,7 @@ import {
   hashPassowrd,
   signInUser,
 } from 'src/utils/hash';
-import { ConfirmationToken } from '.prisma/client';
-import { addMinutes, isAfter } from 'date-fns';
+import { addMinutes } from 'date-fns';
 import { sendConfirmationEmail } from 'src/mail/confirmationEmail';
 
 const mutation: Resolvers = {
@@ -20,8 +19,6 @@ const mutation: Resolvers = {
       const userCreated = await prisma.user.create({
         data: { ...input, password: hashed, id: uuidv4() },
       });
-
-      if (!userCreated?.id) throw new Error("Wasn't possible to create user");
 
       const id = uuidv4();
       const data = {
@@ -35,15 +32,7 @@ const mutation: Resolvers = {
         data,
       });
 
-      if (!confirmationToken?.id)
-        throw new Error("Wasn't possible to create confirmation token");
-
       sendConfirmationEmail(userCreated.email, confirmationToken.token);
-
-      // await prisma.confirmationToken.delete({
-      //   where: { id: confirmationToken.id },
-      // });
-      // await prisma.user.delete({ where: { id: userCreated.id } });
 
       return userCreated;
     },

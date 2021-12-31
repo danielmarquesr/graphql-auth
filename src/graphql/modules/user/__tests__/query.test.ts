@@ -25,7 +25,6 @@ describe('User - query CurrentUser', () => {
     const userMock = usersListMock[0];
     prismaMock.user.findUnique.mockResolvedValue(userMock);
 
-    const req = { headers: { authorization: '' } };
     const { data } = await graphql({
       schema,
       source,

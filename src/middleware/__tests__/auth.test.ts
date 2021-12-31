@@ -4,8 +4,6 @@ import { prismaMock } from 'src/setupTests';
 import { verifyTokenJWT } from '..';
 
 describe('Middleware - auth', () => {
-  const userMock = usersListMock[0];
-
   it('should get the token and get the user', async () => {
     const req = {
       headers: {

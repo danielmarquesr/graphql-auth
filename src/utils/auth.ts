@@ -7,5 +7,7 @@ export const validateAuth = (req: Request) => {
 
   if (!user) throw new Error("Can't get the user from request");
 
+  if (!user.isEmailConfirmed) throw new Error("User email isn't confirmed");
+
   return user;
 };
