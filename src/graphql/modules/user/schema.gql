@@ -5,11 +5,16 @@ type User {
   email: String!
   firstName: String
   lastName: String
+  isEmailConfirmed: Boolean!
   createdAt: Date!
   updatedAt: Date!
 }
 
 type Token {
+  token: String!
+}
+
+input TokenSHA256 {
   token: String!
 }
 
@@ -34,4 +39,5 @@ type Query {
 type Mutation {
   SignUp(input: UserInput!): User
   SignIn(input: AuthInput!): Token
+  ConfirmEmail(input: TokenSHA256!): User
 }

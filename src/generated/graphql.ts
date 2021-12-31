@@ -24,8 +24,14 @@ export type AuthInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  ConfirmEmail?: Maybe<User>;
   SignIn?: Maybe<Token>;
   SignUp?: Maybe<User>;
+};
+
+
+export type MutationConfirmEmailArgs = {
+  input: TokenSha256;
 };
 
 
@@ -61,12 +67,17 @@ export type Token = {
   token: Scalars['String'];
 };
 
+export type TokenSha256 = {
+  token: Scalars['String'];
+};
+
 export type User = {
   __typename?: 'User';
   createdAt: Scalars['Date'];
   email: Scalars['String'];
   firstName?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
+  isEmailConfirmed: Scalars['Boolean'];
   lastName?: Maybe<Scalars['String']>;
   updatedAt: Scalars['Date'];
 };
@@ -156,6 +167,7 @@ export type ResolversTypes = {
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
   Token: ResolverTypeWrapper<Token>;
+  TokenSHA256: TokenSha256;
   User: ResolverTypeWrapper<UserModel>;
   UserInput: UserInput;
 };
@@ -171,6 +183,7 @@ export type ResolversParentTypes = {
   Query: {};
   String: Scalars['String'];
   Token: Token;
+  TokenSHA256: TokenSha256;
   User: UserModel;
   UserInput: UserInput;
 };
@@ -180,6 +193,7 @@ export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 }
 
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  ConfirmEmail?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationConfirmEmailArgs, 'input'>>;
   SignIn?: Resolver<Maybe<ResolversTypes['Token']>, ParentType, ContextType, RequireFields<MutationSignInArgs, 'input'>>;
   SignUp?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationSignUpArgs, 'input'>>;
 };
@@ -200,6 +214,7 @@ export type UserResolvers<ContextType = Context, ParentType extends ResolversPar
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   firstName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  isEmailConfirmed?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   lastName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

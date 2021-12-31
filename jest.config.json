@@ -1,0 +1,16 @@
+{
+  "clearMocks": true,
+  "preset": "ts-jest",
+  "testEnvironment": "node",
+  "setupFilesAfterEnv": ["<rootDir>/src/setupTests.ts"],
+  "testPathIgnorePatterns": ["/node_modules/", "./dist", "/prisma/"],
+  "coverageReporters": ["lcov", "html", "text"],
+  "moduleFileExtensions": ["ts", "js", "json", "node"],
+  "transform": {
+    "^.+\\.(ts)?$": "ts-jest"
+  },
+  "moduleNameMapper": {
+    "^src(.*)$": "<rootDir>/src$1"
+  },
+  "testMatch": ["**/?(*.)(test).ts"]
+}

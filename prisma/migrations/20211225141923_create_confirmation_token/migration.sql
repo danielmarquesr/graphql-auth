@@ -3,6 +3,7 @@ CREATE TABLE "ConfirmationToken" (
     "id" VARCHAR(36) NOT NULL,
     "token" VARCHAR(64) NOT NULL,
     "confirmedAt" TIMESTAMP(3),
+    "expiredAt" TIMESTAMP(3) NOT NULL,
     "userId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,

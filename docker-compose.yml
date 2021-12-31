@@ -13,7 +13,7 @@ services:
   api:
     build: .
     image: hello-graphql
-    command: sh run.sh
+    command: sh run-dev.sh
     ports:
       - 3000:3000
       - 5555:5555
