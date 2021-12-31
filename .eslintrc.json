@@ -7,7 +7,8 @@
     "airbnb-base",
     "plugin:import/recommended",
     "plugin:import/typescript",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "plugin:@typescript-eslint/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -19,6 +20,7 @@
     "import/prefer-default-export": "off",
     "import/extensions": "off"
   },
+  "ignorePatterns": ["src/generated/graphql.ts"],
   "settings": {
     "import/resolver": {
       "alias": {
