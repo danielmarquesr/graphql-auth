@@ -24,5 +24,6 @@ services:
       - NODE_ENV=development
       - DATABASE_URL=postgresql://root:root@db:5432/development?schema=public
       - SECRET=some-real-secret
+      - FRONT_DOMAIN=http://localhost:8000
     depends_on:
       - db
