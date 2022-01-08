@@ -1,4 +1,5 @@
 import { makeExecutableSchema } from '@graphql-tools/schema';
+import cors from 'cors';
 import express from 'express';
 import { graphqlHTTP } from 'express-graphql';
 import resolvers from 'src/graphql/resolvers';
@@ -11,6 +12,8 @@ const { PORT, NODE_ENV } = process.env;
 const app = express();
 
 app.use(express.json());
+
+app.use(cors());
 
 app.use('/ping', (_req, res) => res.json({ msg: 'pong!' }));
 
