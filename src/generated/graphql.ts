@@ -1,5 +1,5 @@
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
-import { User as UserModel } from '@prisma/client/index.d';
+import { User as UserModel, ConfirmationToken as ConfirmationTokenModel } from '@prisma/client/index.d';
 import { Context } from 'src/types/graphql.d';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;

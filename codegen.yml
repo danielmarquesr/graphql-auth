@@ -8,6 +8,7 @@ generates:
       mapperTypeSuffix: Model
       mappers:
         User: "@prisma/client/index.d#User"
+        ConfirmationToken: "@prisma/client/index.d#ConfirmationToken"
     plugins:
       - typescript
       - typescript-resolvers
