@@ -3,6 +3,7 @@ version: "3.9"
 services:
   db:
     image: postgres:13-alpine
+    container_name: db
     ports:
       - 5432:5432
     environment:
@@ -12,7 +13,8 @@ services:
 
   api:
     build: .
-    image: hello-graphql
+    image: hello-graphql-api
+    container_name: api
     command: sh run-dev.sh
     ports:
       - 3000:3000
@@ -27,3 +29,10 @@ services:
       - FRONT_DOMAIN=http://localhost:8000
     depends_on:
       - db
+    networks:
+      - default
+      - hello-graphql
+
+networks:
+  hello-graphql:
+    name: hello-graphql
