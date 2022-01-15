@@ -53,22 +53,29 @@ const mutation: Resolvers = {
     ConfirmEmail: async (_parent, { input: { token } }, { prisma }) => {
       const now = new Date();
       const confirmationToken = await prisma.confirmationToken.findFirst({
+        select: { id: true, confirmedAt: true, user: true },
         where: {
           token,
           AND: {
-            OR: [{ expiredAt: { gte: now } }, { expiredAt: { equals: null } }],
+            OR: [
+              { expiredAt: { gte: now } },
+              { expiredAt: { equals: null }, NOT: { confirmedAt: null } },
+            ],
           },
         },
         rejectOnNotFound: true,
       });
 
+      const { confirmedAt, user, id } = confirmationToken;
+      if (confirmedAt && user.isEmailConfirmed) return user;
+
       const newConfirmationToken = await prisma.confirmationToken.update({
-        where: { id: confirmationToken.id },
+        select: { user: true },
+        where: { id },
         data: {
           confirmedAt: now,
           user: { update: { isEmailConfirmed: true } },
         },
-        include: { user: true },
       });
 
       return newConfirmationToken.user;
