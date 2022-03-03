@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Resolvers } from 'src/generated/graphql';
-import { userSchema } from 'src/validations/schema';
+import { userSchema } from 'src/validations/userSchema';
 import {
   comparePassword,
   generateHashSHA256,
@@ -13,7 +13,10 @@ import { sendConfirmationEmail } from 'src/mail/confirmationEmail';
 const mutation: Resolvers = {
   Mutation: {
     SignUp: async (_parent, { input }, { prisma }) => {
-      userSchema.validateSync(input, { abortEarly: false });
+      await userSchema.validate(input, {
+        abortEarly: false,
+        context: { prisma },
+      });
 
       const hashed = hashPassowrd(input.password);
       const userCreated = await prisma.user.create({
