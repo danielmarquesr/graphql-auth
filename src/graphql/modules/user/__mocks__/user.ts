@@ -2,9 +2,9 @@ import { User } from '@prisma/client';
 
 export const usersListMock: User[] = [
   {
-    id: '6dc7149a-6768-4965-816e-baa1e0a30247',
+    id: 'uuid-mock-test',
     email: 'john@email.com',
-    password: '$2b$10$SEFMQ.prG.ELKwgOsiAqCu9VfaQiJS9tp3neVjF9P5KoLxsZIaFdG',
+    password: 'hashed-mock-password',
     firstName: 'John',
     lastName: 'Anderson',
     isEmailConfirmed: false,
@@ -12,9 +12,9 @@ export const usersListMock: User[] = [
     updatedAt: new Date('2021-12-21T15:20:49.751Z'),
   },
   {
-    id: '6dc7149a-6768-4965-816e-baa1e0a30246',
+    id: 'uuid-mock-test',
     email: 'john2@email.com',
-    password: '$2b$10$SEFMQ.prG.ELKwgOsiAqCu9VfaQiJS9tp3neVjF9P5KoLxsZIaFdG',
+    password: 'hashed-mock-password',
     firstName: 'John',
     lastName: 'Anderson',
     isEmailConfirmed: true,
@@ -22,9 +22,9 @@ export const usersListMock: User[] = [
     updatedAt: new Date('2021-12-20T15:20:49.751Z'),
   },
   {
-    id: '6dc7149a-6768-4965-816e-baa1e0a30245',
+    id: 'uuid-mock-test',
     email: 'john3@email.com',
-    password: '$2b$10$SEFMQ.prG.ELKwgOsiAqCu9VfaQiJS9tp3neVjF9P5KoLxsZIaFdG',
+    password: 'hashed-mock-password',
     firstName: 'John',
     lastName: 'Anderson',
     isEmailConfirmed: true,
@@ -32,9 +32,9 @@ export const usersListMock: User[] = [
     updatedAt: new Date('2021-12-19T15:20:49.751Z'),
   },
   {
-    id: '6dc7149a-6768-4965-816e-baa1e0a30244',
+    id: 'uuid-mock-test',
     email: 'john4@email.com',
-    password: '$2b$10$SEFMQ.prG.ELKwgOsiAqCu9VfaQiJS9tp3neVjF9P5KoLxsZIaFdG',
+    password: 'hashed-mock-password',
     firstName: 'John',
     lastName: 'Anderson',
     isEmailConfirmed: true,
