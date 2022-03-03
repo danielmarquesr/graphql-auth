@@ -29,10 +29,13 @@ app.use(
     pretty: true,
     context: { req, prisma },
     customFormatErrorFn: (error) => ({
-      message: error.message,
       name: error.originalError?.name || error.name,
+      message: error.originalError?.message || error.name,
       ...(error.originalError?.errors && {
         errors: error.originalError.errors,
+      }),
+      ...(error.originalError?.inner && {
+        inner: error.originalError.inner,
       }),
     }),
   }))
