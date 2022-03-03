@@ -52,7 +52,7 @@ describe('Middleware - auth', () => {
     await verifyTokenJWT(req, res as unknown as Response, next, prismaMock);
 
     expect(req.user).toEqual(undefined);
-    expect(req.error).toEqual(Error("User don't found"));
+    expect(req.error).toEqual(Error('User not found'));
     expect(next).toBeCalled();
   });
 

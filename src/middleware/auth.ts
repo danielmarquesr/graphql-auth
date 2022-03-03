@@ -30,7 +30,7 @@ export const verifyTokenJWT = async (
       where: { id: decoded.id },
     });
 
-    if (!userFound) throw new AuthError("User don't found");
+    if (!userFound) throw new AuthError('User not found');
 
     req.user = userFound;
   } catch (error) {

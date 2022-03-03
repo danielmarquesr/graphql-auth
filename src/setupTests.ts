@@ -8,6 +8,14 @@ jest.mock('../prisma/client', () => ({
   default: mockDeep<PrismaClient>(),
 }));
 
+jest.mock('uuid', () => ({
+  v4: jest.fn().mockReturnValue('uuid-mock-test'),
+}));
+
+jest.mock('bcryptjs', () => ({
+  hashSync: jest.fn().mockReturnValue('hashed-mock-password'),
+}));
+
 export const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 
 beforeEach(() => {
