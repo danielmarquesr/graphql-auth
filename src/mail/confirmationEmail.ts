@@ -1,8 +1,20 @@
+import { readFileSync } from 'fs';
 import {
   createTestAccount,
   createTransport,
   getTestMessageUrl,
 } from 'nodemailer';
+
+const getConfirmationEmailContent = (token: string) => {
+  const html = readFileSync(
+    `${__dirname}/templates/confirmationEmail.html`,
+    'utf8'
+  );
+  const { FRONT_DOMAIN } = process.env;
+  html.replace('{FRONT_DOMAIN}', FRONT_DOMAIN || 'http://localhost:8000');
+  html.replace('{TOKEN}', token);
+  return html;
+};
 
 export const sendConfirmationEmail = async (
   userEmail: string,
@@ -20,17 +32,12 @@ export const sendConfirmationEmail = async (
     },
   });
 
-  const { FRONT_DOMAIN } = process.env;
+  const html = getConfirmationEmailContent(token);
   const info = await transport.sendMail({
     from: testAccount.user,
     to: userEmail,
     subject: 'Confirmation Email',
-    html: `
-      <h2>Confirmation Email</h2>
-      <div>
-        <a href="${FRONT_DOMAIN}/confirm?token=${token}">Click here</a> to confirm your email.
-      </div>
-    `,
+    html,
   });
 
   const url = getTestMessageUrl(info);
