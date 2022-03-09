@@ -12,7 +12,7 @@ describe('Middleware - auth', () => {
       },
     } as unknown as Request;
 
-    const userMock = usersListMock[0];
+    const userMock = usersListMock[1];
     prismaMock.user.findUnique.mockResolvedValue(userMock);
 
     const res = jest.fn();
