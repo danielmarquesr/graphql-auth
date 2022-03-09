@@ -3,22 +3,23 @@ import { graphql } from 'graphql';
 import { prismaMock } from 'src/setupTests';
 import resolvers from 'src/graphql/resolvers';
 import typeDefs from 'src/graphql/typeDefs';
+import uuid from 'uuid';
 import { usersListMock } from '../__mocks__/user';
 import { confirmationTokensMockList } from '../__mocks__/confirmationToken';
 
 const schema = makeExecutableSchema({ resolvers, typeDefs });
 
-describe('User - mutation SignUp', () => {
+describe('User - SignUp mutation', () => {
   it('should sign up a valid user and return it', async () => {
     const source = `
       mutation {
         SignUp(
           input: { email: "john@email.com", password: "12345678", firstName: "John", lastName: "Anderson" }
         ) {
-          id
           email
           firstName
           lastName
+          isEmailConfirmed
           createdAt
           updatedAt
         }
@@ -26,18 +27,31 @@ describe('User - mutation SignUp', () => {
     `;
 
     const userMock = usersListMock[0];
-    prismaMock.user.create.mockResolvedValue(userMock);
 
-    const result = await graphql({
+    jest.spyOn(uuid, 'v4').mockReturnValue(userMock.id);
+
+    prismaMock.user.create.mockResolvedValue(userMock);
+    prismaMock.confirmationToken.create.mockResolvedValue(
+      confirmationTokensMockList[0]
+    );
+
+    const { data } = await graphql({
       schema,
       source,
       rootValue: null,
       contextValue: { prisma: prismaMock },
     });
 
-    expect(prismaMock.user.create).toBeCalledWith({ data: userMock });
-    expect(result.data?.SignUp).toEqual({
-      id: userMock.id,
+    expect(prismaMock.user.create).toBeCalledWith({
+      data: {
+        id: userMock.id,
+        email: userMock.email,
+        firstName: userMock.firstName,
+        lastName: userMock.lastName,
+        password: userMock.password,
+      },
+    });
+    expect(data?.SignUp).toEqual({
       email: userMock.email,
       firstName: userMock.firstName,
       lastName: userMock.lastName,
@@ -53,7 +67,6 @@ describe('User - mutation SignUp', () => {
         SignUp(
           input: { email: "john@email.com", password: "12345678", firstName: "John", lastName: "Anderson" }
         ) {
-          id
           email
           firstName
           lastName
@@ -87,7 +100,6 @@ describe('User - mutation SignUp', () => {
         SignUp(
           input: { email: "johnemail.com", password: "123456", firstName: "John", lastName: "Anderson" }
         ) {
-          id
           email
           firstName
           lastName
@@ -97,7 +109,7 @@ describe('User - mutation SignUp', () => {
       }    
     `;
 
-    const result = await graphql({
+    const { data, errors } = await graphql({
       schema,
       source,
       rootValue: null,
@@ -106,14 +118,12 @@ describe('User - mutation SignUp', () => {
 
     expect(prismaMock.user.create).not.toBeCalled();
 
-    expect(result.errors && result.errors[0].message).toEqual(
-      '2 errors occurred'
-    );
-    expect(result.data?.SignUp).toEqual(null);
+    expect(errors && errors[0].message).toEqual('2 errors occurred');
+    expect(data?.SignUp).toEqual(null);
   });
 });
 
-describe('User - mutation SignIn', () => {
+describe('User - SignIn mutation', () => {
   it('should let a already created user sign in and return one jwt token', async () => {
     const source = `
       mutation {
@@ -126,7 +136,7 @@ describe('User - mutation SignIn', () => {
     const userMock = usersListMock[1];
     prismaMock.user.findUnique.mockResolvedValue(userMock);
 
-    const result = await graphql({
+    const { data } = await graphql({
       schema,
       source,
       rootValue: null,
@@ -135,8 +145,8 @@ describe('User - mutation SignIn', () => {
 
     expect(prismaMock.user.findUnique).toBeCalled();
 
-    expect(typeof (result.data?.SignIn as any).token).toEqual('string');
-    expect((result.data?.SignIn as any).token.length > 0).toEqual(true);
+    expect(typeof (data?.SignIn as any).token).toEqual('string');
+    expect((data?.SignIn as any).token.length > 0).toEqual(true);
   });
 
   it('should not sign in a dont created user and show a error', async () => {
@@ -151,7 +161,7 @@ describe('User - mutation SignIn', () => {
     const userMock = usersListMock[0];
     prismaMock.user.findUnique.mockResolvedValue(userMock);
 
-    const result = await graphql({
+    const { data, errors } = await graphql({
       schema,
       source,
       rootValue: null,
@@ -160,10 +170,8 @@ describe('User - mutation SignIn', () => {
 
     expect(prismaMock.user.findUnique).toBeCalled();
 
-    expect(result.errors && result.errors[0].message).toEqual(
-      'Incorrect email or password'
-    );
-    expect(result.data?.SignIn).toEqual(null);
+    expect(errors && errors[0].message).toEqual('Incorrect email or password');
+    expect(data?.SignIn).toEqual(null);
   });
 
   it('should not sign in with a wrong password and show a error', async () => {
@@ -178,7 +186,7 @@ describe('User - mutation SignIn', () => {
     const userMock = usersListMock[0];
     prismaMock.user.findUnique.mockResolvedValue(userMock);
 
-    const result = await graphql({
+    const { data, errors } = await graphql({
       schema,
       source,
       rootValue: null,
@@ -187,10 +195,8 @@ describe('User - mutation SignIn', () => {
 
     expect(prismaMock.user.findUnique).toBeCalled();
 
-    expect(result.errors && result.errors[0].message).toEqual(
-      'Incorrect email or password'
-    );
-    expect(result.data?.SignIn).toEqual(null);
+    expect(errors && errors[0].message).toEqual('Incorrect email or password');
+    expect(data?.SignIn).toEqual(null);
   });
 
   it('should not sign in without the email confirmation and show a error', async () => {
@@ -205,7 +211,7 @@ describe('User - mutation SignIn', () => {
     const userMock = usersListMock[0];
     prismaMock.user.findUnique.mockResolvedValue(userMock);
 
-    const result = await graphql({
+    const { data, errors } = await graphql({
       schema,
       source,
       rootValue: null,
@@ -214,9 +220,7 @@ describe('User - mutation SignIn', () => {
 
     expect(prismaMock.user.findUnique).toBeCalled();
 
-    expect(result.errors && result.errors[0].message).toEqual(
-      'Need to confirm email'
-    );
-    expect(result.data?.SignIn).toEqual(null);
+    expect(errors && errors[0].message).toEqual('Need to confirm email');
+    expect(data?.SignIn).toEqual(null);
   });
 });
