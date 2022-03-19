@@ -1,1 +1,1 @@
-# hello-graphql
+# graphql-auth
