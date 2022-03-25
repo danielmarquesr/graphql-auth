@@ -6,7 +6,7 @@ import {
   generateHashSHA256,
   hashPassowrd,
   signInUser,
-} from 'src/utils/hash';
+} from 'src/utils';
 import { addMinutes } from 'date-fns';
 import { sendConfirmationEmail } from 'src/mail/confirmationEmail';
 
