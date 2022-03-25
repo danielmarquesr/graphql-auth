@@ -4,7 +4,7 @@
   "testEnvironment": "node",
   "setupFilesAfterEnv": ["<rootDir>/src/setupTests.ts"],
   "testPathIgnorePatterns": ["/node_modules/", "./dist", "/prisma/"],
-  "coverageReporters": ["lcov", "html", "text"],
+  "coverageReporters": ["html", "text"],
   "moduleFileExtensions": ["ts", "js", "json", "node"],
   "transform": {
     "^.+\\.(ts)?$": "ts-jest"
