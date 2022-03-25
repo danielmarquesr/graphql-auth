@@ -224,3 +224,77 @@ describe('User - SignIn mutation', () => {
     expect(data?.SignIn).toEqual(null);
   });
 });
+
+describe('User - ConfirmEmail mutation', () => {
+  it('should confirm email from the user and return himself', async () => {
+    const source = `
+      mutation {
+        ConfirmEmail(input: { token: "c7976da4cd5c0f4e226326d7995eaa23e389fdd4cb7c32325c85a921c3224964" }) {
+          email
+          firstName
+          lastName
+          createdAt
+          updatedAt
+        }
+      }
+    `;
+
+    const userMock = usersListMock[0];
+    const confirmationToken = confirmationTokensMockList[0];
+    prismaMock.confirmationToken.findFirst.mockResolvedValue(confirmationToken);
+    prismaMock.confirmationToken.update.mockResolvedValue({
+      user: userMock,
+    } as any);
+
+    const { data } = await graphql({
+      schema,
+      source,
+      rootValue: null,
+      contextValue: { prisma: prismaMock },
+    });
+
+    expect(data?.ConfirmEmail).toEqual({
+      email: userMock.email,
+      firstName: userMock.firstName,
+      lastName: userMock.lastName,
+      createdAt: userMock.createdAt,
+      updatedAt: userMock.updatedAt,
+    });
+  });
+
+  it('should not confirm email from the user that already confirmed his email and return himself', async () => {
+    const source = `
+      mutation {
+        ConfirmEmail(input: { token: "c7976da4cd5c0f4e226326d7995eaa23e389fdd4cb7c32325c85a921c3224964" }) {
+          email
+          firstName
+          lastName
+          createdAt
+          updatedAt
+        }
+      }
+    `;
+
+    const userMock = usersListMock[1];
+    const confirmationToken = confirmationTokensMockList[1];
+    prismaMock.confirmationToken.findFirst.mockResolvedValue(confirmationToken);
+    prismaMock.confirmationToken.update.mockResolvedValue({
+      user: userMock,
+    } as any);
+
+    const { data } = await graphql({
+      schema,
+      source,
+      rootValue: null,
+      contextValue: { prisma: prismaMock },
+    });
+
+    expect(data?.ConfirmEmail).toEqual({
+      email: userMock.email,
+      firstName: userMock.firstName,
+      lastName: userMock.lastName,
+      createdAt: userMock.createdAt,
+      updatedAt: userMock.updatedAt,
+    });
+  });
+});
