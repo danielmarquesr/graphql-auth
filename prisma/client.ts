@@ -1,5 +1,22 @@
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 
-const prisma = new PrismaClient();
+export class DBClient {
+  private static instance: PrismaClient<
+    Prisma.PrismaClientOptions,
+    never,
+    Prisma.RejectOnNotFound | Prisma.RejectPerOperation | undefined
+  >;
 
-export default prisma;
+  constructor() {
+    if (!DBClient.instance) {
+      DBClient.instance = new PrismaClient();
+    }
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  getInstance() {
+    return DBClient.instance;
+  }
+}
+
+export const getDBClient = () => new DBClient().getInstance();
