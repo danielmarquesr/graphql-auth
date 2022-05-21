@@ -1,7 +1,7 @@
 import { PrismaClient, User } from '@prisma/client';
 import { NextFunction, Request, Response } from 'express';
 import { verify, JwtPayload } from 'jsonwebtoken';
-import { AuthError } from 'src/utils';
+import { AuthError, SECRET } from 'src/utils';
 
 interface Payload extends JwtPayload {
   id?: User['id'];
@@ -21,8 +21,7 @@ export const verifyTokenJWT = async (
 
     const token = authorization.replace('Bearer ', '');
 
-    const { SECRET } = process.env;
-    const decoded = verify(token, SECRET || 'some-real-secret') as Payload;
+    const decoded = verify(token, SECRET) as Payload;
 
     if (!decoded?.id) throw new AuthError('Invalid token');
 
