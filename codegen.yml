@@ -9,6 +9,8 @@ generates:
       mappers:
         User: "@prisma/client/index.d#User"
         ConfirmationToken: "@prisma/client/index.d#ConfirmationToken"
+      scalars:
+        Date: string
     plugins:
       - typescript
       - typescript-resolvers
