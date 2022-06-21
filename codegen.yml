@@ -2,7 +2,7 @@ overwrite: true
 schema: http://localhost:3000/graphql
 documents: null
 generates:
-  src/graphql/types.ts:
+  src/graphql/types.d.ts:
     config:
       contextType: src/types/graphql.d#Context
       mapperTypeSuffix: Model
