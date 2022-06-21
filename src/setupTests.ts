@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { mockDeep, mockReset, DeepMockProxy } from 'jest-mock-extended';
-import prisma from '../prisma/client';
+import * as client from '../prisma/client';
 
 jest.mock('uuid', () => ({
   v4: jest.fn().mockReturnValue('uuid-mock-test'),
@@ -17,11 +17,6 @@ jest.mock('jsonwebtoken', () => ({
   sign: jest.fn().mockReturnValue('jwt-token-mock-test'),
 }));
 
-jest.mock('../prisma/client', () => ({
-  __esModule: true,
-  default: mockDeep<PrismaClient>(),
-}));
-
 jest.mock('crypto', () => ({
   ...jest.requireActual('crypto'),
   createHash: jest.fn().mockReturnValue({
@@ -31,6 +26,9 @@ jest.mock('crypto', () => ({
   }),
 }));
 
+jest.spyOn(client, 'getDBClient').mockReturnValue(mockDeep<PrismaClient>());
+
+const prisma = client.getDBClient();
 export const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>;
 
 beforeEach(() => {
