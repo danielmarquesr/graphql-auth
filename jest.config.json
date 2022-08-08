@@ -3,7 +3,6 @@
   "preset": "ts-jest",
   "testEnvironment": "node",
   "setupFilesAfterEnv": ["<rootDir>/src/setupTests.ts"],
-  "testPathIgnorePatterns": ["/node_modules/", "./dist", "/prisma/"],
   "coverageReporters": ["html", "text"],
   "moduleFileExtensions": ["ts", "js", "json", "node"],
   "transform": {
@@ -12,5 +11,5 @@
   "moduleNameMapper": {
     "^src(.*)$": "<rootDir>/src$1"
   },
-  "testMatch": ["**/?(*.)(test).ts"]
+  "testMatch": ["/src/**/?(*.)(test).ts"]
 }
